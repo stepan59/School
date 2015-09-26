@@ -6,7 +6,7 @@ data = json.load(f)
 d = json.load(file)
 clasnum = input('Введите номер желаемого класса :')
 
-
+# dd
 
 print()
 print('Все ученики -')
