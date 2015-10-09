@@ -13,6 +13,8 @@ def save(data,file_name):
     file.write(json.dumps(data, ensure_ascii=False))
     file.close()
 
+
+
 students_data = json.load(open(os.path.join(DIR, 'Students.json'), 'r'))
 teachers_data = json.load(open(os.path.join(DIR, 'Teachers.json'), 'r'))
 clasnum = input('Введите номер желаемого класса :')
@@ -69,15 +71,15 @@ i = 0
 #     print("Нет такого учителя")
 # else:
 #     print('Все в порядке')
-
+# 2.1 добавления нового ученика
 student = {'name': 'Петр',
-                 'middle_name': 'Сергеевич',
-                 'surname': 'Иванов',
-                 "school": "12 гимназия",
-                 "class": "7 В",
-                 "birth_day": "21.05.1995"}
+            "middle_name": 'Сергеевич',
+            "surname": 'Иванов',
+            "school": "12 гимназия",
+            "class": "7 В",
+            "birth_day": "21.05.1995"}
 students_data.append(student)
-
+# 2.2  добавление учителей
 save(students_data, 'Students_new.json')
 
 teacher = {
@@ -86,11 +88,31 @@ teacher = {
     "surname": "Козлов",
     "school": "67 школа",
     "class": [
-      "5 А",
-      "6 Б",
+      "6 А",
+      "8 Б",
       "7 В"
     ],
     "birth_day": "07.08.1985"
   }
 teachers_data.append(teacher)
 save(teachers_data, 'Teachers_new.json')
+
+# 2.3 добавлять классы (которые он ведет) к указанному преподавателю
+teachers_data_n = json.load(open(os.path.join(DIR, 'Teachers_new.json'), 'r'))
+teacher_name = "Максим"
+teacher_srn = "Козлов"
+class_list = ['6 А', "8 Б", "7 В", '7 А']
+for el in teachers_data_n:
+    if teacher_name == el['name'] and teacher_srn == el['surname']:
+        el['class'] = class_list
+        save(teachers_data_n, 'Teachers_new.json')
+
+# 2.4 Добавьте возможность удаления ученика по заданному полному имени
+students_data_n = json.load(open(os.path.join(DIR, 'Students_new.json'), 'r'))
+students_name = "Артем"
+students_middle_name = "Валерьевич"
+students_srn = "Кузин"
+for el in students_data:
+    if students_name == el['name'] and students_srn == el['surname'] and students_middle_name == el['middle_name']:
+        students_data.remove(el)
+        save(students_data, 'Students_new.json')
